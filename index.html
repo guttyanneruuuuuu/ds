@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+<meta name="theme-color" content="#ffd4ec" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<title>🌸 Bloom Brawl</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<div id="app">
+
+  <!-- ===== タイトル画面 ===== -->
+  <section id="screen-title" class="screen active">
+    <div class="bg-blooms"></div>
+    <div class="title-wrap">
+      <div class="logo">
+        <span class="logo-flower">🌸</span>
+        <h1 class="logo-text">Bloom<br><em>Brawl</em></h1>
+      </div>
+      <p class="tagline">塗って、咲かせて、奪いあう。</p>
+
+      <div class="menu">
+        <button class="btn btn-primary" data-mode="ai">🤖 AIと対戦</button>
+        <button class="btn btn-secondary" data-mode="friend">👥 フレンド対戦</button>
+        <button class="btn btn-ghost" data-mode="practice">🌱 ひとりで練習</button>
+      </div>
+
+      <button id="btn-howto" class="text-link">遊び方を見る</button>
+    </div>
+    <footer class="title-footer">made with 💗 / tap to bloom</footer>
+  </section>
+
+  <!-- ===== キャラ選択画面 ===== -->
+  <section id="screen-select" class="screen">
+    <header class="topbar">
+      <button class="btn-back" data-back="title">← もどる</button>
+      <h2 id="select-title">キャラをえらぶ</h2>
+    </header>
+    <div id="char-grid" class="char-grid"></div>
+
+    <div id="friend-setup" class="friend-setup hidden">
+      <h3>👥 フレンド対戦（パスアンドプレイ）</h3>
+      <p class="hint">同じ端末を順番に持って遊びます。<br>2人それぞれキャラを選んでね。</p>
+      <div class="vs-pick">
+        <div class="vs-pick-side" id="pick-p1"><span class="vs-label">P1</span><span class="vs-name">？</span></div>
+        <span class="vs-x">VS</span>
+        <div class="vs-pick-side" id="pick-p2"><span class="vs-label">P2</span><span class="vs-name">？</span></div>
+      </div>
+    </div>
+
+    <div class="select-footer">
+      <button id="btn-start" class="btn btn-primary" disabled>はじめる！</button>
+    </div>
+  </section>
+
+  <!-- ===== ゲーム画面 ===== -->
+  <section id="screen-game" class="screen">
+    <canvas id="game-canvas"></canvas>
+
+    <!-- HUD -->
+    <div id="hud" class="hud">
+      <div class="hud-side hud-p1">
+        <div class="hud-name" id="hud-name1">P1</div>
+        <div class="hud-bar"><div class="hud-bar-fill" id="hp1"></div></div>
+        <div class="hud-territory" id="terr1">0%</div>
+      </div>
+      <div class="hud-center">
+        <div class="hud-timer" id="hud-timer">99</div>
+      </div>
+      <div class="hud-side hud-p2">
+        <div class="hud-name" id="hud-name2">CPU</div>
+        <div class="hud-bar right"><div class="hud-bar-fill" id="hp2"></div></div>
+        <div class="hud-territory" id="terr2">0%</div>
+      </div>
+    </div>
+
+    <button id="btn-pause" class="btn-pause">⏸</button>
+
+    <!-- タッチコントロール -->
+    <div id="touch-controls" class="touch-controls">
+      <div id="stick-zone" class="stick-zone">
+        <div id="stick-base" class="stick-base">
+          <div id="stick-knob" class="stick-knob"></div>
+        </div>
+      </div>
+      <div class="action-zone">
+        <button id="btn-special" class="action-btn special" aria-label="必殺">
+          <span class="action-icon">✦</span>
+          <span class="cd-overlay" id="cd-special"></span>
+        </button>
+        <button id="btn-dash" class="action-btn dash" aria-label="ダッシュ">
+          <span class="action-icon">»</span>
+          <span class="cd-overlay" id="cd-dash"></span>
+        </button>
+        <button id="btn-attack" class="action-btn attack" aria-label="攻撃">
+          <span class="action-icon">✺</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- パスアンドプレイ切替バナー -->
+    <div id="turn-banner" class="turn-banner hidden"></div>
+  </section>
+
+  <!-- ===== リザルト ===== -->
+  <section id="screen-result" class="screen">
+    <div class="bg-blooms"></div>
+    <div class="result-wrap">
+      <div id="result-emoji" class="result-emoji">🏆</div>
+      <h2 id="result-title">WIN!</h2>
+      <div id="result-stats" class="result-stats"></div>
+      <div class="menu">
+        <button id="btn-rematch" class="btn btn-primary">もう一回</button>
+        <button id="btn-tomenu" class="btn btn-ghost">メニューへ</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ポーズ ===== -->
+  <div id="overlay-pause" class="overlay hidden">
+    <div class="overlay-card">
+      <h2>ひとやすみ</h2>
+      <button id="btn-resume" class="btn btn-primary">つづける</button>
+      <button id="btn-quit" class="btn btn-ghost">やめる</button>
+    </div>
+  </div>
+
+  <!-- ===== 遊び方 ===== -->
+  <div id="overlay-howto" class="overlay hidden">
+    <div class="overlay-card howto">
+      <h2>遊び方 🌸</h2>
+      <ul>
+        <li><b>🕹 移動</b> … 左下のスティック（PCは矢印/WASD）</li>
+        <li><b>✺ 攻撃</b> … 近づいて攻撃ボタン（PCは <kbd>J</kbd>）</li>
+        <li><b>» ダッシュ</b> … 素早く回避・接近（PCは <kbd>K</kbd>）</li>
+        <li><b>✦ 必殺</b> … ゲージが溜まると発動（PCは <kbd>L</kbd>）</li>
+        <li><b>🎨 ブルーム</b> … 歩くと足元が<b>自分の色に染まる</b>。
+          縄張りが広いほど<b>移動も攻撃も強化</b>！相手の色は上書きして奪える。</li>
+        <li><b>🏁 勝利</b> … 相手のHPを0にするか、制限時間終了時に<b>縄張りが広い方</b>の勝ち。</li>
+      </ul>
+      <button id="btn-howto-close" class="btn btn-primary">わかった！</button>
+    </div>
+  </div>
+
+  <!-- 起動オーバーレイ（音声解放用） -->
+  <div id="boot" class="boot">
+    <div class="boot-inner">
+      <div class="boot-flower">🌸</div>
+      <p>タップしてはじめる</p>
+    </div>
+  </div>
+
+</div>
+
+<script src="js/audio.js"></script>
+<script src="js/input.js"></script>
+<script src="js/arena.js"></script>
+<script src="js/entity.js"></script>
+<script src="js/ai.js"></script>
+<script src="js/game.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
