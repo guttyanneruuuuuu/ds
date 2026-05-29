@@ -48,6 +48,15 @@
           this._resetSelect();
         });
       });
+      // 難易度
+      document.querySelectorAll('.diff-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          global.Sound.tap();
+          this.difficulty = btn.dataset.diff;
+          document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+        });
+      });
       // 遊び方
       const howto = document.getElementById('overlay-howto');
       document.getElementById('btn-howto').addEventListener('click', () => {
@@ -62,12 +71,19 @@
       this._resetSelect();
       const title = document.getElementById('select-title');
       const friendSetup = document.getElementById('friend-setup');
+      const diffSetup = document.getElementById('difficulty-setup');
       if (this.mode === 'friend') {
         title.textContent = '2人でえらぶ';
         friendSetup.classList.remove('hidden');
-      } else {
-        title.textContent = this.mode === 'ai' ? 'キャラをえらぶ' : 'キャラをえらぶ（練習）';
+        diffSetup.classList.add('hidden');
+      } else if (this.mode === 'ai') {
+        title.textContent = 'キャラをえらぶ';
         friendSetup.classList.add('hidden');
+        diffSetup.classList.remove('hidden');
+      } else {
+        title.textContent = 'キャラをえらぶ（練習）';
+        friendSetup.classList.add('hidden');
+        diffSetup.classList.add('hidden');
       }
       this.show('select');
     },

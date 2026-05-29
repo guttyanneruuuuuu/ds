@@ -6,6 +6,7 @@
 <meta name="theme-color" content="#ffd4ec" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <title>🌸 Bloom Brawl</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌸</text></svg>" />
 <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
@@ -39,6 +40,15 @@
       <h2 id="select-title">キャラをえらぶ</h2>
     </header>
     <div id="char-grid" class="char-grid"></div>
+
+    <div id="difficulty-setup" class="difficulty-setup hidden">
+      <span class="diff-label">つよさ</span>
+      <div class="diff-options">
+        <button class="diff-btn" data-diff="easy">やさしい</button>
+        <button class="diff-btn active" data-diff="normal">ふつう</button>
+        <button class="diff-btn" data-diff="hard">むずかしい</button>
+      </div>
+    </div>
 
     <div id="friend-setup" class="friend-setup hidden">
       <h3>👥 フレンド対戦（パスアンドプレイ）</h3>

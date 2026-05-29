@@ -128,7 +128,15 @@
       } else if (this.controllers[2] === 'human2') {
         inP2 = this._humanInput(2); // 同端末では同入力（friendはAI補助 or 練習扱い）
       } else {
-        inP2 = { mx: 0, my: 0, pressedAttack: false, pressedDash: false, pressedSpecial: false };
+        // dummy: ゆるく徘徊する的（練習・フレンド用）
+        this._dummyT = (this._dummyT || 0) - dt;
+        if (this._dummyT <= 0) {
+          this._dummyT = 0.8 + Math.random() * 1.2;
+          const a = Math.random() * Math.PI * 2;
+          this._dummyDir = { x: Math.cos(a), y: Math.sin(a) };
+        }
+        inP2 = { mx: this._dummyDir.x * 0.6, my: this._dummyDir.y * 0.6,
+                 pressedAttack: false, pressedDash: false, pressedSpecial: false };
       }
 
       if (this.phase === 'play' || this.phase === 'countdown') {

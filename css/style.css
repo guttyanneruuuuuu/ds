@@ -168,6 +168,18 @@ body{
 .stat-dot{ width:7px; height:7px; border-radius:50%; background:#e7dcef; }
 .stat-dot.on{ background:var(--cc,#ff6fa5); }
 
+/* 難易度設定 */
+.difficulty-setup{ z-index:2; text-align:center; margin-top:18px; }
+.diff-label{ display:block; font-weight:800; font-size:14px; color:var(--ink-soft); margin-bottom:8px; }
+.diff-options{ display:inline-flex; gap:8px; background:rgba(255,255,255,.55);
+  padding:6px; border-radius:999px; box-shadow:var(--shadow-soft); }
+.diff-btn{ border:none; cursor:pointer; font-family:inherit; font-weight:800; font-size:14px;
+  color:var(--ink-soft); background:transparent; padding:9px 18px; border-radius:999px;
+  transition:all .15s; }
+.diff-btn.active{ background:linear-gradient(180deg,#ffd45e,#ffb02e); color:#fff;
+  box-shadow:0 4px 10px rgba(240,170,40,.4); }
+.diff-btn:active{ transform:scale(.94); }
+
 /* フレンド設定 */
 .friend-setup{ z-index:2; text-align:center; margin-top:6px; }
 .friend-setup h3{ margin:6px 0; font-size:18px; }
