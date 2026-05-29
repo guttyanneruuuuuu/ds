@@ -340,6 +340,14 @@ kbd{ background:#f1e8f6; border-radius:6px; padding:1px 7px; font-size:12px;
   animation:blink 1.4s ease infinite; }
 @keyframes blink{ 50%{ opacity:.4; } }
 
+/* 紙吹雪 */
+.confetti{ position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:1; }
+.confetti i{ position:absolute; top:-20px; width:10px; height:14px; border-radius:3px;
+  opacity:.9; animation:fall linear forwards; }
+@keyframes fall{
+  to{ transform:translateY(110vh) rotate(720deg); opacity:.5; }
+}
+
 .hidden{ display:none !important; }
 
 /* PCではタッチコントロールを薄く */

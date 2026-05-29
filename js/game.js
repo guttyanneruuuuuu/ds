@@ -20,6 +20,8 @@
       this.running = false;
       this.paused = false;
       this.shake = 0;
+      this.flash = 0;
+      this.flashColor = '#fff';
       this._raf = null;
       this._last = 0;
       this.onEnd = null;    // 終了コールバック
@@ -162,6 +164,7 @@
       }
 
       if (this.shake > 0) this.shake -= dt * 60;
+      if (this.flash > 0) this.flash -= dt;
 
       // HUD更新
       this._updateHUD();
@@ -232,6 +235,8 @@
     paintBeam(x, y, facing, owner, arena) {
       for (let i = 0; i < 8; i++) arena.paint(x + facing * i * 26, y, owner, 2);
     }
+
+    triggerFlash(color) { this.flash = 0.35; this.flashColor = color; this.shake = Math.max(this.shake, 6); }
 
     // ===== エフェクト生成 =====
     spawnBurst(x, y, color, n) {
@@ -349,6 +354,15 @@
       });
 
       ctx.restore();
+
+      // 必殺フラッシュ（画面オーバーレイ）
+      if (this.flash > 0) {
+        ctx.save();
+        ctx.globalAlpha = this.flash * 0.8;
+        ctx.fillStyle = this.flashColor;
+        ctx.fillRect(0, 0, this.W, this.H);
+        ctx.restore();
+      }
 
       // カウントダウン
       if (this.phase === 'countdown') this._drawCountdown(ctx);

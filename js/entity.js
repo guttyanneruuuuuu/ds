@@ -154,6 +154,7 @@
       this.special = 0;
       this.specialAnim = 0.6;
       global.Sound.special();
+      game.triggerFlash(this.def.light);
       const kind = this.def.special;
       if (kind === 'bloom') {
         game.aoeHit(this, this.x, this.y, 130, 16 * this.power, 16);

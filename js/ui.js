@@ -267,9 +267,11 @@
 
       let mine = 1;
       const win = res.winner;
+      const isWin = (win === 0 || win === mine);
       if (win === 0) { emoji.textContent = '🤝'; titleEl.textContent = 'DRAW'; global.Sound.win(); }
       else if (win === mine) { emoji.textContent = '🏆'; titleEl.textContent = 'WIN!'; global.Sound.win(); }
       else { emoji.textContent = '🌧'; titleEl.textContent = 'LOSE...'; global.Sound.lose(); }
+      if (isWin) this._confetti();
 
       let rows = '';
       if (res.reason === 'friend') {
@@ -286,6 +288,27 @@
       }
       stats.innerHTML = rows;
       this.show('result');
+    },
+
+    _confetti() {
+      const screen = document.getElementById('screen-result');
+      const old = screen.querySelector('.confetti');
+      if (old) old.remove();
+      const wrap = document.createElement('div');
+      wrap.className = 'confetti';
+      const colors = ['#ff6fa5', '#4fc3f7', '#ffd45e', '#9fe9bf', '#c9a7ff', '#ff9ecb'];
+      for (let i = 0; i < 60; i++) {
+        const c = document.createElement('i');
+        c.style.left = Math.random() * 100 + '%';
+        c.style.background = colors[(Math.random() * colors.length) | 0];
+        c.style.animationDuration = (1.6 + Math.random() * 1.8) + 's';
+        c.style.animationDelay = (Math.random() * 0.6) + 's';
+        c.style.width = (6 + Math.random() * 8) + 'px';
+        c.style.height = (10 + Math.random() * 8) + 'px';
+        wrap.appendChild(c);
+      }
+      screen.appendChild(wrap);
+      setTimeout(() => wrap.remove(), 4000);
     },
   };
 
